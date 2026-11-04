@@ -19,5 +19,5 @@ $rep = new UsuarioRepositorie();
 $ser = new UsuarioService($rep);
 $con = new UsuarioController($ser);
 
-var_dump($con -> show());
+var_dump($con -> index());
 

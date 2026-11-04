@@ -20,7 +20,8 @@ class UsuarioController
         $this -> db = Database::connect();
     }
 
-    public function show(): mixed
+    // Método index() -> Trata possíveis erro com try/catch, retorna json 
+    public function index()
     {
 
         try{
@@ -28,8 +29,21 @@ class UsuarioController
             return $this -> service -> listar();
             
             
-        }catch(Error $e){
-            return $e -> getMessage();
+        }catch(Throwable $e){
+            $e -> getMessage();
+        }
+
+    }
+
+    public function show(int $id)
+    {
+
+        try{
+
+
+
+        }catch(Throwable $e){
+            $e -> getMessage();
         }
 
     }
