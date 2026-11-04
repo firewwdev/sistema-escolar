@@ -21,4 +21,9 @@ class UsuarioService
 
     }
 
+
+    public function listarPorId(int $id)
+    {
+        return $this -> rep -> find($id);
+    }
 }
