@@ -36,7 +36,7 @@ class Database
                 ]
             );          
 
-            echo 'Banco conectado com sucesso.';
+           //echo 'Banco conectado com sucesso.';
 
         }catch(PDOException $e){
             throw new RuntimeException(
