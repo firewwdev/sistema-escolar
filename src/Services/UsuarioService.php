@@ -2,28 +2,54 @@
 
 namespace App\Services;
 
+use App\Models\Usuario;
+use App\Enums\TipoUsuario;
 use App\Repositories\UsuarioRepositorie;
+use App\Services\MatriculaService;
 
 class UsuarioService
 {
-    
-    private UsuarioRepositorie $rep;
 
-    public function __construct(UsuarioRepositorie $rep)
+
+    public function __construct(
+        private UsuarioRepositorie $repository,
+        private MatriculaService $matricula
+    )
+    {}
+
+    public function listar(?TipoUsuario $tipo = null): array
     {
-        $this -> rep = $rep;
-    }
-
-    public function listar(): array
-    {
-
-        return $this -> rep -> all();
-
+        return $this -> repository -> all(tipo: $tipo);
     }
 
 
     public function listarPorId(int $id)
     {
-        return $this -> rep -> find($id);
+        return $this -> repository -> find(id: $id);
     }
+
+    public function cadastrar(array $dados)
+    {
+
+        $nome = $dados['nome'] ?? null;
+        $matricula = $this -> matricula -> gerarMatricula() ?? null;
+        $email = $dados['email'] ?? null;
+        $senha = $dados['senha'] ?? null;
+        $tipo = $dados['tipo'] ?? null;
+        
+        $tipo = TipoUsuario::from($tipo);
+
+        $usuario = new Usuario(
+            nome: $nome,
+            matricula: $matricula,
+            email: $email,
+            senha: $senha,
+            tipo: $tipo
+        );
+
+        $this -> repository -> create(usuario: $usuario);
+
+    }
+
+
 }

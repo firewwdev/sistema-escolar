@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Http;
-
 class Request
 {
-
     public static function json(string $body): array
     {
 

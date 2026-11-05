@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Http\Response;
+use App\Http\Request;
 use App\Services\UsuarioService;
 use PDO;
 use Throwable;
@@ -21,12 +22,20 @@ class UsuarioController
     }
 
     // Método index() -> Retorna uma lista json de todos na tabela Usuário
-    public function index()
+    public function index(): void
     {
 
         try{
 
-            return $this -> service -> listar();
+            $response = $this -> service -> listar();
+
+            Response::json(
+                body: [
+                    'message' => 'Lista de usuários buscado com sucesso.',
+                    'data' => $response
+                ],
+                status: 200
+            );
             
         }catch(Throwable $e){
             $e -> getMessage();
@@ -40,12 +49,12 @@ class UsuarioController
 
         try{
     
-            $usuario = $this -> service -> listarPorId($id);
+            $response = $this -> service -> listarPorId(id: $id);
 
             Response::json(
                 body: [
                     'message' => 'Usuário buscado com sucesso.',
-                    'data' => $usuario,
+                    'data' => $response,
                 ],
                 status: 200
             );
@@ -59,6 +68,26 @@ class UsuarioController
 
         }
 
+    }
+
+    public function store(mixed $body): void
+    {
+
+        try{
+
+            $dados = $body;
+
+            $this -> service -> cadastrar(dados: $dados);
+
+        }catch(Throwable $e){
+
+            Response::json(
+                body: ['error' => 'Erro interno do servidor.'],
+                status: 500
+            );
+
+        }
+        
     }
 
 }

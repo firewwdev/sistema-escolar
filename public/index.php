@@ -8,15 +8,16 @@ $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv -> load();
 
 use App\Config\Database;
-use App\Enums\TipoUsuario;
 use App\Repositories\UsuarioRepositorie;
 use App\Services\UsuarioService;
+use App\Services\MatriculaService;
 use App\Controllers\UsuarioController;
 
 
 $pdo = Database::connect();
 $rep = new UsuarioRepositorie();
-$ser = new UsuarioService($rep);
+$mat = new MatriculaService;
+$ser = new UsuarioService($rep, $mat);
 $con = new UsuarioController($ser);
 
 echo '<br>';
