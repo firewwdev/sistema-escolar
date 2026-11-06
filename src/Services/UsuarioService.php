@@ -43,9 +43,11 @@ class UsuarioService
             $dados,
             ['nome', 'email', 'senha', 'tipo']
         )){
-            
             throw new InvalidArgumentException('Preencha todos os campos.');
-            
+        }
+
+        if(!$this -> validator -> validarEmail($email)){
+            throw new InvalidArgumentException('E-mail inválido.');
         }
         
         $tipo = TipoUsuario::from($tipo);
