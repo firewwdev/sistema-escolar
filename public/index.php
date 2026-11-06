@@ -12,12 +12,14 @@ use App\Repositories\UsuarioRepositorie;
 use App\Services\UsuarioService;
 use App\Services\MatriculaService;
 use App\Controllers\UsuarioController;
+use App\Validators\Validators;
 
 
 $pdo = Database::connect();
 $rep = new UsuarioRepositorie();
 $mat = new MatriculaService;
-$ser = new UsuarioService($rep, $mat);
+$val = new Validators;
+$ser = new UsuarioService($rep, $mat, $val);
 $con = new UsuarioController($ser);
 
 echo '<br>';

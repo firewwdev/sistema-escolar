@@ -6,6 +6,7 @@ use App\Models\Usuario;
 use App\Enums\TipoUsuario;
 use App\Repositories\UsuarioRepositorie;
 use App\Services\MatriculaService;
+use App\Validators\Validators;
 
 class UsuarioService
 {
@@ -13,7 +14,8 @@ class UsuarioService
 
     public function __construct(
         private UsuarioRepositorie $repository,
-        private MatriculaService $matricula
+        private MatriculaService $matricula,
+        private Validators $validator
     )
     {}
 
