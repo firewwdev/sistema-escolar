@@ -6,6 +6,7 @@ use App\Config\Database;
 use App\Http\Response;
 use App\Http\Request;
 use App\Services\UsuarioService;
+use InvalidArgumentException;
 use PDO;
 use Throwable;
 
@@ -84,6 +85,13 @@ class UsuarioController
             Response::json(
                 body: ['error' => 'Erro interno do servidor.'],
                 status: 500
+            );
+
+        }catch(InvalidArgumentException $e){
+            
+            Response::json(
+                body: ['error' => $e -> getMessage()],
+                status: 422
             );
 
         }

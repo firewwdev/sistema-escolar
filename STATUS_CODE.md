@@ -3,7 +3,7 @@ STATUS CODE:
 200 -> Ok
 201 -> Criar recurso com POST
 204 -> Excluido com sucesso/não retorna json
-400 -> JSON inválido ou campo obrigatório faltando
+400 -> JSON inválido / no controller -> nao chegou no service ainda
 401 -> Sem autorização/não autênticado
 403 -> Autenticado mas sem permissão
 404 -> Recurso não existe

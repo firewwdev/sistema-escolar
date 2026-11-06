@@ -7,10 +7,10 @@ use App\Enums\TipoUsuario;
 use App\Repositories\UsuarioRepositorie;
 use App\Services\MatriculaService;
 use App\Validators\Validators;
+use InvalidArgumentException;
 
 class UsuarioService
 {
-
 
     public function __construct(
         private UsuarioRepositorie $repository,
@@ -38,6 +38,15 @@ class UsuarioService
         $email = $dados['email'] ?? null;
         $senha = $dados['senha'] ?? null;
         $tipo = $dados['tipo'] ?? null;
+
+        if(!$this -> validator -> validarCamposVazios(
+            $dados,
+            ['nome', 'email', 'senha', 'tipo']
+        )){
+            
+            throw new InvalidArgumentException('Preencha todos os campos.');
+            
+        }
         
         $tipo = TipoUsuario::from($tipo);
 
