@@ -40,8 +40,8 @@ class UsuarioService
         $tipo = $dados['tipo'] ?? null;
 
         if(!$this -> validator -> validarCamposVazios(
-            $dados,
-            ['nome', 'email', 'senha', 'tipo']
+            dados: $dados,
+            campos: ['nome', 'email', 'senha', 'tipo']
         )){
             throw new InvalidArgumentException('Preencha todos os campos.');
         }

@@ -54,7 +54,7 @@ class UsuarioRepositorie
     public function create(Usuario $usuario)
     {
 
-        $sql = 'INSERT INTO usuario(nome, matricula, email, senha)
+        $sql = 'INSERT INTO usuario(nome, matricula, email, senha, tipo)
             VALUES(:nome, :matricula, :email, :senha, :tipo)';
 
         $stmt = $this -> db -> prepare($sql);
@@ -64,7 +64,7 @@ class UsuarioRepositorie
             ":matricula" => $usuario -> matricula,
             ":email" => $usuario -> email,
             ":senha" => $usuario -> senha,
-            ":tipo" => $usuario -> tipo
+            ":tipo" => $usuario -> tipo -> value
         ]);
 
     }

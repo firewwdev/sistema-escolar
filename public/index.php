@@ -22,7 +22,12 @@ $val = new Validators;
 $ser = new UsuarioService($rep, $mat, $val);
 $con = new UsuarioController($ser);
 
-echo '<br>';
-
-$con -> show(1);
+// $con -> store(
+//     [s
+//         'nome' => 'Gabriel',
+//         'email' => 'gg5850523@gmail.com',
+//         'senha' => '1234',
+//         'tipo' => 'aluno'
+//     ]
+// );
 

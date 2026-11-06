@@ -71,7 +71,7 @@ class UsuarioController
 
     }
 
-    public function store(mixed $body): void
+    public function store(array $body): void
     {
 
         try{
@@ -80,13 +80,6 @@ class UsuarioController
 
             $this -> service -> cadastrar(dados: $dados);
 
-        }catch(Throwable $e){
-
-            Response::json(
-                body: ['error' => 'Erro interno do servidor.'],
-                status: 500
-            );
-
         }catch(InvalidArgumentException $e){
             
             Response::json(
@@ -94,6 +87,12 @@ class UsuarioController
                 status: 422
             );
 
+        }catch(Throwable $e){
+
+            Response::json(
+                body: ['error' => 'Erro interno do servidor.'],
+                status: 500
+            );
         }
         
     }

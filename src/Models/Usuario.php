@@ -22,12 +22,11 @@ class Usuario
         TipoUsuario $tipo
     )
     {
-        $id = $this -> id;
-        $nome = $this -> nome;
-        $matricula = $this -> matricula;
-        $email = $this -> email;
-        $senha = $this -> senha;
-        $tipo = $this -> tipo;
+        $this -> nome = $nome;
+        $this -> matricula = $matricula;
+        $this -> email = $email;
+        $this -> senha = $senha;
+        $this -> tipo = $tipo;
     }
 
 }
