@@ -18,7 +18,7 @@ class UsuarioRepositorie
         $this -> db = Database::connect();
     }
 
-    public function all(?TipoUsuario $tipo = null): array 
+    public function all(?TipoUsuario $tipo = null): ?array 
     {
         
         $parametro = [];
@@ -33,26 +33,41 @@ class UsuarioRepositorie
         $stmt = $this -> db -> prepare($sql);
         $stmt -> execute($parametro);
 
-        return $stmt -> fetchAll() ;
+        return $stmt -> fetchAll() ?: null;
 
     }
 
-    public function find(int $id): array 
+    public function find(int $id): ?array
     {
 
-        $sql = 'SELECT * FROM usuario
+        $sql = 'SELECT nome, email FROM usuario
             WHERE id = :id';
 
         $stmt = $this -> db -> prepare($sql);
 
         $stmt -> execute([":id" => $id]);
 
-        return $stmt -> fetch();
+        return $stmt -> fetch() ?: null;
 
     }
 
-    public function create(Usuario $usuario)
+    public function findAll(int $id): ?array
     {
+
+        $sql = 'SELECT nome, email, matricula, tipo FROM usuario
+            WHERE id = :id';
+
+        $stmt = $this -> db -> prepare($sql);
+
+        $stmt -> execute([":id" => $id]);
+
+        return $stmt -> fetch() ?: null;
+
+    }
+
+    public function create(Usuario $usuario): int
+    {
+
 
         $sql = 'INSERT INTO usuario(nome, matricula, email, senha, tipo)
             VALUES(:nome, :matricula, :email, :senha, :tipo)';
@@ -66,6 +81,8 @@ class UsuarioRepositorie
             ":senha" => $usuario -> senha,
             ":tipo" => $usuario -> tipo -> value
         ]);
+
+        return (int) $this -> db -> lastInsertId();
 
     }
 
@@ -92,6 +109,24 @@ class UsuarioRepositorie
             ":tipo" => $usuario -> tipo -> value
         ]);
 
+    }
+
+    public function atualizarPerfil(int $id, array $dados): void
+    {
+
+        $sql = 'UPDATE usuario
+            SET 
+                nome = :nome,
+                email = :email
+            WHERE id = :id';
+
+        $stmt = $this -> db -> prepare($sql);
+
+        $stmt -> execute([
+            ":nome" => $dados['nome'],
+            ":email" => $dados['email'],
+            ":id" => $id
+        ]);
     }
 
 }

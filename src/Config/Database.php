@@ -26,7 +26,7 @@ class Database
             $db_user = $_ENV['DB_USER'];
             $db_pass = $_ENV['DB_PASS'];
 
-            self::$connection = new PDO(
+            return self::$connection = new PDO(
                 dsn: "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4",
                 username: $db_user,
                 password: $db_pass,

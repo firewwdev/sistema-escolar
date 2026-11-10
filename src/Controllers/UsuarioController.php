@@ -6,6 +6,8 @@ use App\Config\Database;
 use App\Http\Response;
 use App\Http\Request;
 use App\Services\UsuarioService;
+use App\DTO\DTOAtualizarPerfil;
+
 use InvalidArgumentException;
 use PDO;
 use Throwable;
@@ -23,6 +25,7 @@ class UsuarioController
     }
 
     // Método index() -> Retorna uma lista json de todos na tabela Usuário
+    // GET /usuarios
     public function index(): void
     {
 
@@ -71,7 +74,8 @@ class UsuarioController
 
     }
 
-    public function store(array $body): void
+    // -> Recebe os dados do front-end e inicia o fluxo de cadastro de um usuário
+    public function store(mixed $body): void
     {
 
         try{
@@ -79,6 +83,14 @@ class UsuarioController
             $dados = $body;
 
             $this -> service -> cadastrar(dados: $dados);
+
+            Response::json(
+                body: [
+                    'message' => 'Usuário criado com sucesso.',
+                    'data' => ''
+                ],
+                status: 201
+            );
 
         }catch(InvalidArgumentException $e){
             
@@ -96,5 +108,46 @@ class UsuarioController
         }
         
     }
+
+    public function atualizarPerfil(int $id, mixed $body): void
+    {
+
+        $dados = $body;
+
+        $dadosDTO = new DTOAtualizarPerfil(
+            nome: $dados['nome'],
+            email: $dados['email']
+        );
+
+        try{
+
+            $response = $this -> service -> atualizarPerfil(id: $id, dadosDTO: $dadosDTO);
+            
+            Response::json(
+                body: [
+                    'message' => 'Usuário atualizado com sucesso.',
+                    'data' => $response
+                ],
+                status: 200
+            );
+
+        }catch(InvalidArgumentException $e){
+
+            Response::json(
+                body: ['error' => $e -> getMessage()],
+                status: 422
+            );
+
+        }catch(Throwable $e){
+
+            Response::json(
+                body: ['error' => $e -> getMessage()],
+                status: 500
+            );
+
+        }
+
+    }
+
 
 }

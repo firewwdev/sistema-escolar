@@ -19,7 +19,7 @@ $pdo = Database::connect();
 $rep = new UsuarioRepositorie();
 $mat = new MatriculaService;
 $val = new Validators;
-$ser = new UsuarioService($rep, $mat, $val);
+$ser = new UsuarioService($pdo, $rep, $mat, $val);
 $con = new UsuarioController($ser);
 
 // $con -> store(
@@ -31,3 +31,10 @@ $con = new UsuarioController($ser);
 //     ]
 // );
 
+// $con -> atualizarPerfil(
+//     1,
+//     [
+//         "nome" => 'joãozin',
+//         "email" => 'amaral@gmail.com'
+//     ]
+// );

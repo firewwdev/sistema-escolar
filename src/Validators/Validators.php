@@ -19,7 +19,7 @@ class Validators
                 trim((string) $dados[$campo]) === '' // Verifica se alguma chave selecionada, em $dados seja ' '
             ){
                 return false;
-            } 
+            }
 
             $val_count++;
 
