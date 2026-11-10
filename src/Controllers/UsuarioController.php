@@ -10,6 +10,7 @@ use App\DTO\DTOAtualizarPerfil;
 
 use InvalidArgumentException;
 use PDO;
+use RuntimeException;
 use Throwable;
 
 class UsuarioController
@@ -29,48 +30,31 @@ class UsuarioController
     public function index(): void
     {
 
-        try{
+        $response = $this -> service -> listar(); // -> Service
 
-            $response = $this -> service -> listar();
-
-            Response::json(
-                body: [
-                    'message' => 'Lista de usuários buscado com sucesso.',
-                    'data' => $response
-                ],
-                status: 200
-            );
-            
-        }catch(Throwable $e){
-            $e -> getMessage();
-        }
+        Response::json(
+            body: [
+                'message' => 'Lista de usuários buscado com sucesso.',
+                'data' => $response
+            ],
+            status: 200
+        );
 
     }
 
     // Método index() -> Retorna uma lista json com os dados de um usuário
     public function show(int $id): void
     {
+ 
+        $response = $this -> service -> listarPorId(id: $id); // -> Service
 
-        try{
-    
-            $response = $this -> service -> listarPorId(id: $id);
-
-            Response::json(
-                body: [
-                    'message' => 'Usuário buscado com sucesso.',
-                    'data' => $response,
-                ],
-                status: 200
-            );
-
-        }catch(Throwable $e){
-
-            Response::json(
-                body: ['error' => 'Erro interno do servidor.'],
-                status: 500
-            );
-
-        }
+        Response::json(
+            body: [
+                'message' => 'Usuário buscado com sucesso.',
+                'data' => $response,
+            ],
+            status: 200
+        );
 
     }
 
@@ -78,34 +62,17 @@ class UsuarioController
     public function store(mixed $body): void
     {
 
-        try{
+        $dados = $body;
 
-            $dados = $body;
+        $response = $this -> service -> cadastrar(dados: $dados); // -> Service
 
-            $this -> service -> cadastrar(dados: $dados);
-
-            Response::json(
-                body: [
-                    'message' => 'Usuário criado com sucesso.',
-                    'data' => ''
-                ],
-                status: 201
-            );
-
-        }catch(InvalidArgumentException $e){
-            
-            Response::json(
-                body: ['error' => $e -> getMessage()],
-                status: 422
-            );
-
-        }catch(Throwable $e){
-
-            Response::json(
-                body: ['error' => 'Erro interno do servidor.'],
-                status: 500
-            );
-        }
+        Response::json(
+            body: [
+                'message' => 'Usuário criado com sucesso.',
+                'data' => $response
+            ],
+            status: 201
+        );
         
     }
 
@@ -119,33 +86,24 @@ class UsuarioController
             email: $dados['email']
         );
 
-        try{
-
-            $response = $this -> service -> atualizarPerfil(id: $id, dadosDTO: $dadosDTO);
+        $response = $this -> service -> atualizarPerfil(id: $id, dadosDTO: $dadosDTO); // -> Services
             
-            Response::json(
-                body: [
-                    'message' => 'Usuário atualizado com sucesso.',
-                    'data' => $response
-                ],
-                status: 200
-            );
+        Response::json(
+            body: [
+                'message' => 'Usuário atualizado com sucesso.',
+                'data' => $response
+            ],
+            status: 200
+        );
 
-        }catch(InvalidArgumentException $e){
+    }
 
-            Response::json(
-                body: ['error' => $e -> getMessage()],
-                status: 422
-            );
+    public function destroy(int $id)
+    {
 
-        }catch(Throwable $e){
+        $this -> service -> deletar($id);
 
-            Response::json(
-                body: ['error' => $e -> getMessage()],
-                status: 500
-            );
-
-        }
+        Response::noContent();
 
     }
 

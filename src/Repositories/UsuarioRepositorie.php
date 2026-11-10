@@ -129,4 +129,16 @@ class UsuarioRepositorie
         ]);
     }
 
+    public function delete(int $id)
+    {
+
+        $sql = 'DELETE FROM usuario
+            WHERE id = :id';
+
+        $stmt = $this -> db -> prepare($sql);
+        
+        $stmt -> execute([":id" => $id]);
+
+    } 
+
 }

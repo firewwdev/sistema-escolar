@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Config;
+use PDO;
 use App\Config\Database;
 use App\Models\Usuario;
 use App\Enums\TipoUsuario;
@@ -11,9 +12,10 @@ use App\Services\MatriculaService;
 use App\Validators\Validators;
 use App\DTO\DTOAtualizarPerfil;
 
-use InvalidArgumentException;
-use PDO;
-use RuntimeException;
+// Exceptions
+use App\Exceptions\UsuarioNaoEncontradoException;
+use App\Exceptions\EmailInvalidoException;
+use App\Exceptions\CamposNaoPreenchidosException;
 
 class UsuarioService
 {
@@ -40,7 +42,7 @@ class UsuarioService
         $usuario = $this -> repository -> find(id: $id);
 
         if($usuario === null){
-            throw new RuntimeException('Usuário não encontrado.');
+            throw new UsuarioNaoEncontradoException();
         }
 
         return $usuario;
@@ -59,11 +61,11 @@ class UsuarioService
             dados: $dados,
             campos: ['nome', 'email', 'senha', 'tipo']
         )){
-            throw new InvalidArgumentException('Preencha todos os campos.');
+            throw new CamposNaoPreenchidosException();
         }
 
         if(!$this -> validator -> validarEmail($email)){
-            throw new InvalidArgumentException('E-mail inválido.');
+            throw new EmailInvalidoException();
         }
         
         $tipo = TipoUsuario::from($tipo);
@@ -88,18 +90,18 @@ class UsuarioService
         $usuario = $this -> repository -> find(id: $id);
 
         if($usuario === false){
-            throw new RuntimeException('Usuário não encontrado.');
+            throw new UsuarioNaoEncontradoException();
         }
 
         if(!$this -> validator -> validarCamposVazios(
             dados: $dadosDTO -> toArray(),
             campos: ['nome', 'email']
         )){
-            throw new InvalidArgumentException('Preencha todos os campos.');
+            throw new CamposNaoPreenchidosException();
         }
 
         if(!$this -> validator -> validarEmail($dadosDTO -> getEmail())){
-            throw new InvalidArgumentException('E-mail inválido.');
+            throw new EmailInvalidoException();
         }
         
         $dados = $dadosDTO -> toArray();
@@ -111,6 +113,19 @@ class UsuarioService
     }
 
     public function alterarSenha(){}
+
+    public function deletar(int $id)
+    {
+
+        $usuario = $this -> repository -> find(id: $id);
+
+        if($usuario === null){
+            throw new UsuarioNaoEncontradoException();
+        }
+
+        $this -> repository -> delete($id);
+
+    }
 
 
 }

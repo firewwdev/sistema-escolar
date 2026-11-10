@@ -13,6 +13,7 @@ use App\Services\UsuarioService;
 use App\Services\MatriculaService;
 use App\Controllers\UsuarioController;
 use App\Validators\Validators;
+use App\Exceptions\ExceptionsHandler;
 
 
 $pdo = Database::connect();
@@ -22,19 +23,27 @@ $val = new Validators;
 $ser = new UsuarioService($pdo, $rep, $mat, $val);
 $con = new UsuarioController($ser);
 
-// $con -> store(
-//     [s
-//         'nome' => 'Gabriel',
-//         'email' => 'gg5850523@gmail.com',
-//         'senha' => '1234',
-//         'tipo' => 'aluno'
-//     ]
-// );
 
-// $con -> atualizarPerfil(
-//     1,
-//     [
-//         "nome" => 'joãozin',
-//         "email" => 'amaral@gmail.com'
-//     ]
-// );
+try{
+    // $con -> store(
+    //     [
+    //         'nome' => 'Maria',
+    //         'email' => 'maria5850523@gmail.com',
+    //         'senha' => '4567',
+    //         'tipo' => 'aluno'
+    //     ]
+    // );
+
+    // $con -> atualizarPerfil(
+    //     1,
+    //     [
+    //         "nome" => 'joãozin',
+    //         "email" => 'amaaaral@gmail.com'
+    //     ]
+    // );
+
+    //$con -> destroy(3);
+
+}catch(Throwable $e){
+    ExceptionsHandler::handle($e);
+}
