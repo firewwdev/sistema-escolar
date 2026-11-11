@@ -86,7 +86,7 @@ class UsuarioRepositorie
 
     }
 
-    public function update(Usuario $usuario)
+    public function update(Usuario $usuario): void
     {
 
         $sql = 'UPDATE usuario
@@ -129,7 +129,7 @@ class UsuarioRepositorie
         ]);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
 
         $sql = 'DELETE FROM usuario

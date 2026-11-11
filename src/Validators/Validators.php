@@ -41,4 +41,33 @@ class Validators
 
     }
 
+    public function validarRota(array $uri_formatada, array $rota_formatada): bool
+    {
+
+        $caminho_uri = $uri_formatada;
+        $caminho_rota = $rota_formatada;
+
+        // Verifica se os arrays contém a mesma quantidade de indices
+        if(count($caminho_uri) !== count($caminho_rota)){
+            return false;
+        }
+        
+        foreach($caminho_uri as $indice_uri => $valor_uri){
+            
+            $valor_rota = $caminho_rota[$indice_uri];
+
+            // -> Verifica se for parâmetro, ex: {id}, irá retornar true; se for (id) retorna false.
+            $temParemetro = str_starts_with($valor_rota, '{') && str_ends_with($valor_rota, '}');
+          
+            // -> Verifica se o valor dos indices são diferentes.
+            if(!$temParemetro && $valor_rota !== $valor_uri){
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+
 }

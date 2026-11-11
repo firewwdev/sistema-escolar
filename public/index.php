@@ -23,8 +23,17 @@ $val = new Validators;
 $ser = new UsuarioService($pdo, $rep, $mat, $val);
 $con = new UsuarioController($ser);
 
+$uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
+$caminho = explode('/', trim($uri, '/'));
 
 try{
+
+    echo $uri . '</br></br>';
+    var_dump($caminho);
+    echo '</br></br>'. $caminho[0];
+    echo '</br>'. $caminho[1];
+
     // $con -> store(
     //     [
     //         'nome' => 'Maria',

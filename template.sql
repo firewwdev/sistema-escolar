@@ -19,7 +19,7 @@ CREATE TABLE nota(
   FOREIGN KEY (prova_id) REFERENCES prova(id)
 );
 
-CREATE TABLE Usuario(
+CREATE TABLE usuario(
   id int primary key auto_increment,
   nome varchar(55) NOT NULL,
   matricula varchar(11) NOT NULL UNIQUE,
